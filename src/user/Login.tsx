@@ -6,13 +6,12 @@ import { AuthAPI } from "../service/AuthService";
 import { useAuth } from "../auth/AuthProvider";
 import { useNavigate } from "react-router-dom";
 
-function Register() {
+function Login() {
     const { setToken } = useAuth();
     const navigate = useNavigate();
 
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-    const [confirmPassword, setConfirmPassword] = useState("");
     const [errorMesssage, setErrorMessage] = useState("");
     const [loading, setLoading] = useState(false);
 
@@ -23,18 +22,6 @@ function Register() {
         return validateEmail(email) ? false : true;
       }, [email]);
 
-      const isPasswordInvalid = React.useMemo(() => {
-        if (password === "") return false;
-    
-        return password.length < 8;
-      }, [password]);
-
-      const isConfirmPasswordInvalid = React.useMemo(() => {
-        if (confirmPassword === "") return false;
-    
-        return confirmPassword !== password;
-      }, [confirmPassword]);
-
     function getEmailFieldColour(): "default" | "primary" | "secondary" | "success" | "warning" | "danger" | undefined {
         if (isEmailInvalid) {
             return "danger";
@@ -44,27 +31,10 @@ function Register() {
         return "success";
     }
 
-    function getPassordFieldColour(): "default" | "primary" | "secondary" | "success" | "warning" | "danger" | undefined {
-        if (isPasswordInvalid) {
-            return "danger";
-        } else if (password === "") {
-            return "default";
-        }
-        return "success";
-    }
-
-    function getConfirmPassordFieldColour(): "default" | "primary" | "secondary" | "success" | "warning" | "danger" | undefined {
-        if (isConfirmPasswordInvalid) {
-            return "danger";
-        } else if (confirmPassword === "") {
-            return "default";
-        }
-        return "success";
-    }
 
     return (
         <div className="flex flex-wrap gap-4 justify-center">
-            <div className="sm:w-1/2 w-full">To get started, please register with your email address and a password.</div>
+            <div className="sm:w-1/2 w-full">Login with your email address and password.</div>
             <div className="sm:w-1/2 w-full">
                 <Input isRequired type="email" label="Email" placeholder="Enter your email" 
                 value={email} 
@@ -76,21 +46,13 @@ function Register() {
                 />
             </div>
             <div className="sm:w-1/2 w-full">
-                <Input isRequired type="password" label="Password" placeholder="Enter a password."
+                <Input isRequired type="password" label="Password" placeholder="Enter your password."
                                 value={password} 
                                 onValueChange={setPassword}
-                                errorMessage={isPasswordInvalid && "Please enter a password of at least 8 characters."} 
-                                color={getPassordFieldColour()} 
-                                maxLength={50}/>
+                                maxLength={50}
+                                />
             </div>
-            <div className="sm:w-1/2 w-full">
-                <Input isRequired type="password" label="Confirm Password" placeholder="Confirm your password."
-                                value={confirmPassword} 
-                                onValueChange={setConfirmPassword}
-                                errorMessage={isConfirmPasswordInvalid && "Your passwords don't match."} 
-                                color={getConfirmPassordFieldColour()} 
-                                maxLength={50}/>
-            </div>
+
             <div className="sm:w-1/2 w-full">
                 <Button color="primary" onPress={submitPressed} isDisabled={isButtonDisabled()} isLoading={loading}>
                     Submit
@@ -103,13 +65,13 @@ function Register() {
         </div>
     )
     function isButtonDisabled(): boolean {
-        return email === "" || password === "" || confirmPassword === "" || isEmailInvalid || isPasswordInvalid || isConfirmPasswordInvalid;
+        return email === "" || password === "" || isEmailInvalid;
       }
 
         
     function submitPressed() {
         setLoading(true);
-        AuthAPI.register(email, password).then(response => {
+        AuthAPI.login(email, password).then(response => {
             setToken(response.data.jwtToken)
             navigate("/dashboard", { replace: true });
         }).catch(err => {
@@ -124,5 +86,5 @@ function Register() {
   }
 
 
-  export default Register
+  export default Login
   
