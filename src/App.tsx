@@ -8,7 +8,9 @@ import { ProtectedRoute } from './auth/ProtectedRoute'
 import { NextUIProvider } from '@nextui-org/react'
 import { LoggedOutRoute } from './auth/LoggedOutRoute'
 import Login from './user/Login'
-import AddPi from './dashboard/AddPi'
+import DevicePage from './dashboard/DevicePage'
+import { UnauthorizedInterceptor } from './auth/UnauthorizedInterceptor'
+import DeviceConfigPage from './dashboard/DeviceConfig'
 function App() {
 
   const navigate = useNavigate();
@@ -16,6 +18,7 @@ function App() {
   return (
     <NextUIProvider className="dark text-foreground bg-background" navigate={navigate}>
       <AuthProvider>
+        <UnauthorizedInterceptor />
       <div className="flex w-full gap-4">
         <NavBar />
       </div>
@@ -26,8 +29,11 @@ function App() {
           <Route path="/dashboard" element={<ProtectedRoute />}>
             <Route path="/dashboard" element={<Dashboard />}/>
           </Route>
-          <Route path="/addPi" element={<ProtectedRoute />}>
-            <Route path="/addPi" element={<AddPi />}/>
+          <Route path="/device" element={<ProtectedRoute />}>
+            <Route path="/device" element={<DevicePage />}/>
+          </Route>
+          <Route path="/config" element={<ProtectedRoute />}>
+            <Route path="/config" element={<DeviceConfigPage />}/>
           </Route>
           {
           //Logged out only

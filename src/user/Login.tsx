@@ -33,7 +33,7 @@ function Login() {
 
 
     return (
-        <div className="flex flex-wrap gap-4 justify-center">
+        <form className="flex flex-wrap gap-4 justify-center">
             <div className="sm:w-1/2 w-full">Login with your email address and password.</div>
             <div className="sm:w-1/2 w-full">
                 <Input isRequired type="email" label="Email" placeholder="Enter your email" 
@@ -50,6 +50,7 @@ function Login() {
                                 value={password} 
                                 onValueChange={setPassword}
                                 maxLength={50}
+                                autoComplete="on"
                                 />
             </div>
 
@@ -62,7 +63,7 @@ function Login() {
                 {errorMesssage}
             </div>
 
-        </div>
+        </form>
     )
     function isButtonDisabled(): boolean {
         return email === "" || password === "" || isEmailInvalid;

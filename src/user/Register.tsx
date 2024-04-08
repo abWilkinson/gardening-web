@@ -63,7 +63,7 @@ function Register() {
     }
 
     return (
-        <div className="flex flex-wrap gap-4 justify-center">
+        <form className="flex flex-wrap gap-4 justify-center">
             <div className="sm:w-1/2 w-full">To get started, please register with your email address and a password.</div>
             <div className="sm:w-1/2 w-full">
                 <Input isRequired type="email" label="Email" placeholder="Enter your email" 
@@ -73,6 +73,7 @@ function Register() {
                 color={getEmailFieldColour()}
                 isInvalid={isEmailInvalid}
                 maxLength={50}
+                autoComplete="email"
                 />
             </div>
             <div className="sm:w-1/2 w-full">
@@ -81,7 +82,8 @@ function Register() {
                                 onValueChange={setPassword}
                                 errorMessage={isPasswordInvalid && "Please enter a password of at least 8 characters."} 
                                 color={getPassordFieldColour()} 
-                                maxLength={50}/>
+                                maxLength={50}
+                                autoComplete="new-password"/>
             </div>
             <div className="sm:w-1/2 w-full">
                 <Input isRequired type="password" label="Confirm Password" placeholder="Confirm your password."
@@ -89,7 +91,8 @@ function Register() {
                                 onValueChange={setConfirmPassword}
                                 errorMessage={isConfirmPasswordInvalid && "Your passwords don't match."} 
                                 color={getConfirmPassordFieldColour()} 
-                                maxLength={50}/>
+                                maxLength={50}
+                                autoComplete="off"/>
             </div>
             <div className="sm:w-1/2 w-full">
                 <Button color="primary" onPress={submitPressed} isDisabled={isButtonDisabled()} isLoading={loading}>
@@ -100,7 +103,7 @@ function Register() {
                 {errorMesssage}
             </div>
 
-        </div>
+        </form>
     )
     function isButtonDisabled(): boolean {
         return email === "" || password === "" || confirmPassword === "" || isEmailInvalid || isPasswordInvalid || isConfirmPasswordInvalid;
